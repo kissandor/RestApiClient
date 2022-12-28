@@ -81,7 +81,6 @@ namespace restApiClient
             request.AddParameter("id", textBox1.Text);
             request.AddParameter("token", Login.token);
             IRestResponse restResponse = client.Execute(request);
-            textBox1.Clear();
             getMethod();
         }
 
