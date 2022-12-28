@@ -39,7 +39,7 @@ namespace restApiClient
         {
             String ROUTE = "index.php" + "?id=" + textBox5.Text;
             var client = new RestClient(URL);
-            var request = new RestRequest(ROUTE, Method.GET);
+            var request = new RestRequest(ROUTE, Method.Get);
             Subj subject = client.Execute<List<Subj>>(request).Data[0];
 
             textBox6.Text = subject.Subject;
@@ -53,7 +53,7 @@ namespace restApiClient
         {
             String ROUTE = "index.php" + "?token=" + Login.token;
             var client = new RestClient(URL);
-            var request = new RestRequest(ROUTE, Method.POST);
+            var request = new RestRequest(ROUTE, Method.Post);
             request.RequestFormat = DataFormat.Json;
             try
             {
@@ -63,7 +63,7 @@ namespace restApiClient
                     Teacher = textBox3.Text,
                     Grade = int.Parse(textBox4.Text)
                 });
-                IRestResponse response = client.Execute(request);
+                RestResponse response = client.Execute(request);
                 getMethod();
             }
             catch
@@ -77,10 +77,10 @@ namespace restApiClient
 
             var client = new RestClient(URL);
             String ROUTE = "index.php/{id}";
-            var request = new RestRequest(ROUTE, Method.DELETE);
+            var request = new RestRequest(ROUTE, Method.Delete);
             request.AddParameter("id", textBox1.Text);
             request.AddParameter("token", Login.token);
-            IRestResponse restResponse = client.Execute(request);
+            RestResponse restResponse = client.Execute(request);
             getMethod();
         }
 
@@ -88,7 +88,7 @@ namespace restApiClient
         {
             String ROUTE = "index.php" + "?id=" + textBox5.Text + "&token=" + Login.token;
             var client = new RestClient(URL);
-            var request = new RestRequest(ROUTE, Method.PUT);
+            var request = new RestRequest(ROUTE, Method.Put);
 
             request.RequestFormat = DataFormat.Json;
             try
@@ -102,7 +102,7 @@ namespace restApiClient
                     }
                 );
 
-                IRestResponse restResponse = client.Execute(request);
+                RestResponse restResponse = client.Execute(request);
                 getMethod();
             }
             catch { }
@@ -124,9 +124,9 @@ namespace restApiClient
         private void getMethod(String route = "index.php")
         {
             var client = new RestClient(URL);
-            var request = new RestRequest(route, Method.GET);
+            var request = new RestRequest(route, Method.Get);
 
-            IRestResponse<List<Subj>> restResponse = client.Execute<List<Subj>>(request);
+            RestResponse<List<Subj>> restResponse = client.Execute<List<Subj>>(request);
 
             listBox1.Items.Clear();
             foreach (Subj subject in restResponse.Data)

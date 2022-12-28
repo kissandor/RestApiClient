@@ -1,5 +1,4 @@
 ﻿using RestSharp;
-using RestSharp.Deserializers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using System.Text.Json;
+using Newtonsoft.Json;
 
 namespace restApiClient
 {
@@ -28,7 +28,7 @@ namespace restApiClient
         private void button1_Click(object sender, EventArgs e)
         {
             var client = new RestClient(URL);
-            var request = new RestRequest(ROUTE, Method.POST);
+            var request = new RestRequest(ROUTE, Method.Post);
             request.RequestFormat = DataFormat.Json;
             request.AddBody(new User
             {
@@ -36,10 +36,23 @@ namespace restApiClient
                 password = textBox2.Text,
 
             });
-            IRestResponse response = client.Execute(request);
+            RestResponse response = client.Execute(request);
             String adat = response.Content;
 
+            Resp resp = JsonConvert.DeserializeObject<Resp>(adat);
 
+
+            if (resp.status == "1")
+            {
+                token = resp.token;
+                this.Close();
+            }
+            else {
+                textBox1.Text = "Hibas adat.";
+                textBox2.Clear();
+            }
+
+            /*
             RestSharp.Deserializers.JsonDeserializer deserial = new JsonDeserializer();
             Resp jasonFormat = deserial.Deserialize<Resp>(response);
             if (jasonFormat.status == "1")
@@ -47,7 +60,7 @@ namespace restApiClient
                 token = jasonFormat.token;
                 this.Close();
             }
-
+            */
         }
     }
 }

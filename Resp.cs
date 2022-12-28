@@ -8,6 +8,7 @@ namespace restApiClient
 {
     class Resp
     {
+        public Resp() { }
         public string status { get; set; }
         public string status_message { get; set; }
         public string token { get; set; }
